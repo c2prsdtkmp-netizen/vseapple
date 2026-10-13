@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>vseapple</title>
+<style>
+:root{--bg:#ffffff;--card:#f4f6f6;--sel:#e6f4ec;--tx:#101418;--mut:#6c7780;--line:#e4e8ea;--acc:#1a9e6a;--btn:#111317;--btnt:#ffffff;--chip:#eceff0;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#0f1214;--card:#181c1f;--sel:#14301f;--tx:#eef1f3;--mut:#8b979f;--line:#242a2e;--chip:#20262a;--btn:#eef1f3;--btnt:#101418}}
+:root[data-theme="dark"]{--bg:#0f1214;--card:#181c1f;--sel:#14301f;--tx:#eef1f3;--mut:#8b979f;--line:#242a2e;--chip:#20262a;--btn:#eef1f3;--btnt:#101418}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--tx);font:16px/1.4 -apple-system,system-ui,"Segoe UI",Roboto,sans-serif}
+button{font-family:inherit;font-size:inherit;color:inherit}
+.app{height:100%;display:flex;flex-direction:column;max-width:560px;margin:0 auto}
+main{flex:1;overflow-y:auto;padding:12px 16px}
+.top{display:flex;justify-content:space-between;align-items:baseline;margin:6px 2px 10px}
+.top h2{margin:0;font-size:24px}
+.top span{color:var(--mut)}
+#q{width:100%;box-sizing:border-box;padding:14px 16px;border-radius:16px;border:0;background:var(--card);color:var(--tx);font:inherit}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:12px 0 6px}
+.chip{flex:none;border:0;border-radius:999px;padding:10px 16px;background:var(--chip);font-weight:600;font-size:15px}
+.chip.on{background:var(--btn);color:var(--btnt)}
+.card{display:flex;align-items:center;gap:14px;width:100%;box-sizing:border-box;margin:10px 0;padding:14px;border:0;border-radius:22px;background:var(--card);text-align:left}
+.card.on{background:var(--sel)}
+.badge{flex:none;width:58px;height:58px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:30px}
+.info{flex:1;min-width:0}
+.name{font-weight:700;font-size:18px}
+.tag{color:var(--mut);font-size:14px}
+.ck{flex:none;width:34px;height:34px;border-radius:50%;border:2px solid #c3cacf;display:flex;align-items:center;justify-content:center;color:transparent;font-weight:700}
+.card.on .ck{background:var(--acc);border-color:var(--acc);color:#fff}
+.empty{color:var(--mut);text-align:center;padding:30px 0}
+.bar{display:flex;align-items:center;gap:10px;margin:0 12px 8px;padding:12px 12px 12px 20px;border-radius:26px;background:#1b1e22;color:#fff}
+.bar .l{flex:1}
+.bar small{display:block;opacity:.6;font-size:14px}
+.bar b{font-size:26px}
+.x{border:0;border-radius:16px;width:48px;height:48px;background:rgba(255,255,255,.15);color:#fff;font-size:18px}
+.go{border:0;border-radius:18px;padding:16px 20px;background:var(--acc);color:#fff;font-weight:700;font-size:17px}
+nav{display:flex;border-top:1px solid var(--line);background:var(--bg)}
+nav button{flex:1;border:0;background:none;padding:10px 6px 12px;color:var(--mut);font-weight:600;font-size:13px}
+nav button i{display:block;font-style:normal;font-size:22px;margin-bottom:2px}
+nav button.on{color:var(--acc)}
+.hero{position:relative;height:270px;margin-top:10px}
+.hero .t{position:absolute;width:78px;height:78px;border-radius:24px;background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:36px;box-shadow:0 6px 22px rgba(0,0,0,.12)}
+.hero .c{left:50%;top:70px;margin-left:-60px;width:120px;height:120px;border-radius:34px;font-size:60px}
+.hero .a{left:6%;top:6px}.hero .b{right:6%;top:6px}.hero .d{left:4%;top:150px}.hero .e{right:4%;top:150px}
+.ttl{text-align:center;font-size:44px;font-weight:800;letter-spacing:-1.5px;margin:6px 0 18px}
+.step{display:flex;gap:14px;align-items:center;margin:10px 0;padding:18px;border-radius:24px;background:var(--card)}
+.num{flex:none;width:44px;height:44px;border-radius:50%;background:var(--sel);color:var(--acc);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:18px}
+.step b{font-size:18px}
+.note{margin:12px 0;padding:12px;border-radius:14px;background:var(--chip);color:var(--mut);font-size:14px}
+.big{display:block;width:100%;border:0;border-radius:22px;padding:20px;margin-top:6px;background:var(--btn);color:var(--btnt);font-weight:700;font-size:19px}
+.sheet{position:fixed;inset:0;background:rgba(0,0,0,.45);display:flex;align-items:flex-end;justify-content:center}
+.sheet[hidden]{display:none}
+.panel{width:100%;max-width:560px;box-sizing:border-box;background:var(--bg);color:var(--tx);border-radius:30px 30px 0 0;padding:22px 18px calc(18px + env(safe-area-inset-bottom,0px));max-height:90%;overflow-y:auto}
+.ov{color:var(--acc);font-weight:800;font-size:15px;letter-spacing:.8px}
+.panel h2{margin:6px 0 14px;font-size:32px;letter-spacing:-.8px}
+.sel{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+.sel span{background:var(--chip);border-radius:14px;padding:10px 14px;font-weight:700}
+.pay{display:flex;justify-content:space-between;align-items:center;padding:18px;border-radius:20px;background:var(--sel);margin-bottom:10px;font-weight:700;gap:10px}
+.pay .ck{background:var(--acc);border-color:var(--acc);color:#fff;margin-left:8px}
+.pay .r{display:flex;align-items:center}
+.tot{display:flex;justify-content:space-between;align-items:center;padding:20px;border-radius:20px;background:var(--card);margin-bottom:10px}
+.tot b{font-size:30px}
+.hint{color:var(--mut);font-size:13px;text-align:center;margin:0 0 12px}
+.cta{display:block;text-align:center;text-decoration:none;background:var(--btn);color:var(--btnt);font-weight:700;font-size:19px;padding:20px;border-radius:22px}
+.close{display:block;width:100%;margin-top:6px;border:0;background:none;color:var(--mut);padding:12px}
+</style>
+</head>
+<body>
+<div class="app">
+  <main id="main"></main>
+  <div class="bar" id="bar">
+    <div class="l"><small>Безлимит: все приложения</small><b>1 000 ₽</b></div>
+    <button class="x" id="clr" hidden>✕</button>
+    <button class="go" id="go">Продолжить →</button>
+  </div>
+  <nav>
+    <button data-t="apps"><i>📋</i>Приложения</button>
+    <button data-t="how" class="on"><i>❓</i>Как это работает</button>
+    <button data-t="my"><i>🧾</i>Купленные</button>
+  </nav>
+</div>
+<div class="sheet" id="sheet" hidden><div class="panel" id="panel"></div></div>
+<script>
+var BOTN="vseapple_bot";
+var A=[
+ {id:"chatgpt",n:"ChatGPT",c:"AI",e:"🧠",g:"#10a37f,#0b7a5f",t:"AI · ChatGPT"},
+ {id:"claude",n:"Claude",c:"AI",e:"✳️",g:"#e08a64,#c4572f",t:"AI · Claude"},
+ {id:"deepseek",n:"DeepSeek",c:"AI",e:"🐋",g:"#5b7bff,#2f4bd6",t:"AI · DeepSeek"},
+ {id:"max",n:"MAX",c:"Общение",e:"💬",g:"#ff8a3d,#d63a8a",t:"Популярное · MAX"},
+ {id:"mail",n:"Почта Mail.ru",c:"Общение",e:"✉️",g:"#2aa0ee,#1269c4",t:"Популярное · Почта"},
+ {id:"vkvideo",n:"VK Видео",c:"Видео",e:"🎬",g:"#ff4d6d,#c9184a",t:"Развлечения · VK Видео"},
+ {id:"vkmusic",n:"VK Музыка",c:"Видео",e:"🎵",g:"#ff8a00,#e040fb",t:"Развлечения · VK Музыка"},
+ {id:"rutube",n:"Rutube",c:"Видео",e:"📺",g:"#4a1020,#1b0610",t:"Развлечения · Rutube"},
+ {id:"avito",n:"Авито",c:"Сервисы",e:"🛍️",g:"#7bd13d,#2f9e44",t:"Популярное · Авито"},
+ {id:"sber",n:"Сбербанк",c:"Банки",e:"🏦",g:"#2fb857,#14873a",t:"Популярное · Сбер"},
+ {id:"tbank",n:"Т-Банк",c:"Банки",e:"🏦",g:"#f7cf3a,#d9a400",t:"Банки · Т-Банк"},
+ {id:"vtb",n:"ВТБ Банк",c:"Банки",e:"🏦",g:"#2f56d8,#0a2896",t:"Популярное · ВТБ Банк"},
+ {id:"alfa",n:"Альфа-Банк",c:"Банки",e:"🏦",g:"#ff5a4d,#c9281c",t:"Популярное · Альфа Банк"},
+ {id:"rshb",n:"Россельхозбанк",c:"Банки",e:"🏦",g:"#2fa866,#157a44",t:"Банки · РСХБ"},
+ {id:"ozon",n:"Ozon Банк",c:"Банки",e:"🏦",g:"#4a7cff,#1f4fd6",t:"Банки · Ozon"},
+ {id:"sbpay",n:"СБПэй",c:"Банки",e:"💳",g:"#8b5cf6,#16a34a",t:"Банки · СБПэй"}
+];
+var cats=["Все","Банки","Общение","Видео","Сервисы","AI"],cat="Все",q="",sel=[],tab="how";
+var main=document.getElementById("main"),sheet=document.getElementById("sheet"),panel=document.getElementById("panel"),bar=document.getElementById("bar"),clr=document.getElementById("clr");
+function cardsHtml(){
+  var l=A.filter(function(a){return (cat==="Все"||a.c===cat)&&a.n.toLowerCase().indexOf(q.toLowerCase())>-1});
+  if(!l.length){return '<div class="empty">Ничего не найдено</div>'}
+  return l.map(function(a){
+    return '<button class="card'+(sel.indexOf(a.id)>-1?' on':'')+'" data-id="'+a.id+'"><div class="badge" style="background:linear-gradient(135deg,'+a.g+')">'+a.e+'</div><div class="info"><div class="name">'+a.n+'</div><div class="tag">'+a.t+'</div></div><div class="ck">✓</div></button>';
+  }).join("");
+}
+function chipsHtml(){return cats.map(function(c){return '<button class="chip'+(c===cat?' on':'')+'" data-c="'+c+'">'+c+'</button>'}).join("")}
+function drawApps(){
+  main.innerHTML='<div class="top"><h2>Все приложения</h2><span>'+A.length+'</span></div><p class="tag" style="margin:-4px 2px 10px">Добро пожаловать! Выберите приложение.</p><input id="q" type="search" placeholder="Найти приложение" autocomplete="off" value="'+q+'"><div class="chips" id="chips">'+chipsHtml()+'</div><div id="list">'+cardsHtml()+'</div>';
+}
+function redraw(){
+  document.getElementById("chips").innerHTML=chipsHtml();
+  document.getElementById("list").innerHTML=cardsHtml();
+  clr.hidden=!sel.length;
+}
+function drawHow(){
+  main.innerHTML='<div class="hero"><div class="t a">🧠</div><div class="t b">💬</div><div class="t c">🍏</div><div class="t d">🏦</div><div class="t e">🎬</div></div>'
+   +'<div class="ttl">vseapple</div>'
+   +'<div class="step"><div class="num">1</div><div><b>Выберите приложение</b><br><span class="tag">Найдите нужное в каталоге.</span></div></div>'
+   +'<div class="step"><div class="num">2</div><div><b>Оплатите безлимит</b><br><span class="tag">Одна оплата открывает все приложения.</span></div></div>'
+   +'<div class="step"><div class="num">3</div><div><b>Следуйте инструкции</b><br><span class="tag">Она придёт в бот сразу после оплаты.</span></div></div>'
+   +'<div class="note">Это инструкции, а не файлы приложений. Способы установки меняются, поэтому актуальность проверяйте.</div>'
+   +'<button class="big" id="pick">Выбрать приложение →</button>';
+}
+function getOrders(){try{return JSON.parse(localStorage.getItem("va_orders")||"[]")}catch(e){return []}}
+function saveOrders(){try{var o=getOrders();sel.forEach(function(id){if(o.indexOf(id)<0){o.push(id)}});localStorage.setItem("va_orders",JSON.stringify(o))}catch(e){}}
+function drawMy(){
+  var o=getOrders();
+  if(!o.length){main.innerHTML='<div class="top"><h2>Купленные</h2></div><div class="note">Здесь появятся приложения, которые вы оформили на этом устройстве. Инструкции открываются в боте.</div>';return}
+  main.innerHTML='<div class="top"><h2>Купленные</h2><span>'+o.length+'</span></div>'+o.map(function(id){
+    var a=A.filter(function(x){return x.id===id})[0];if(!a){return ""}
+    return '<a class="card" style="text-decoration:none;color:inherit" href="https://t.me/'+BOTN+'?start=app_'+a.id+'"><div class="badge" style="background:linear-gradient(135deg,'+a.g+')">'+a.e+'</div><div class="info"><div class="name">'+a.n+'</div><div class="tag">Открыть инструкцию в боте</div></div><div class="ck" style="border:0;color:var(--acc);font-size:24px">→</div></a>';
+  }).join("")+'<div class="note">Если инструкция не откроется, бот предложит оплатить безлимит.</div>';
+}
+function show(){
+  var on=tab==="apps";
+  bar.style.display=on?"flex":"none";
+  clr.hidden=!sel.length;
+  document.querySelectorAll("nav button").forEach(function(b){b.classList.toggle("on",b.getAttribute("data-t")===tab)});
+  if(on){drawApps()}else if(tab==='my'){drawMy()}else{drawHow()}
+}
+function order(){
+  var names=sel.map(function(id){return '<span>'+A.filter(function(a){return a.id===id})[0].n+'</span>'}).join("");
+  var link="https://t.me/"+BOTN+"?start="+(sel.length?"app_"+sel[0]:"pay");
+  panel.innerHTML='<div class="ov">ЗАКАЗ</div><h2>Безлимит</h2>'
+   +(names?'<div class="sel">'+names+'</div>':'')
+   +'<div class="pay"><span>Онлайн-оплата</span><span class="r">1 000,00 ₽<span class="ck">✓</span></span></div>'
+   +'<div class="tot"><span>К оплате</span><b>1 000,00 ₽</b></div>'
+   +'<p class="hint">Ссылка на оплату откроется в Telegram-боте.</p>'
+   +'<a class="cta" href="'+link+'">Оплатить 1 000,00 ₽ →</a>'
+   +'<button class="close" id="close">Закрыть</button>';
+  sheet.hidden=false;
+}
+document.addEventListener("click",function(e){
+  var t=e.target,m;
+  if(m=t.closest(".chip")){cat=m.getAttribute("data-c");redraw();return}
+  if(m=t.closest(".card")){var id=m.getAttribute("data-id"),i=sel.indexOf(id);if(i>-1){sel.splice(i,1)}else{sel.push(id)}redraw();return}
+  if(t.closest(".cta")){saveOrders();return}
+  if(t.closest("#go")){order();return}
+  if(t.closest("#clr")){sel=[];redraw();return}
+  if(t.id==="close"||t===sheet){sheet.hidden=true;return}
+  if(t.closest("#pick")){tab="apps";show();return}
+  if(m=t.closest("nav button")){tab=m.getAttribute("data-t");show()}
+});
+document.addEventListener("input",function(e){if(e.target.id==="q"){q=e.target.value;document.getElementById("list").innerHTML=cardsHtml()}});
+show();
+</script>
+</body>
+</html>
